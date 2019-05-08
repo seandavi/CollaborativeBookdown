@@ -45,13 +45,18 @@ of each "chapter" repository.
   - DESCRIPTION file
     - contains Depends for each chapter package
     - contains Remotes for each chapter package, ideally tied to individual tag, branch, or commit.
-  - _bookdown.yml
-    - contains `rmd_files` tag that lists `.Rmd` file locations--**these vignettes will be 
-    located in git submodules as described next**
-  - `workshops` directory
-    - contains git submodules^[see [a tutorial](https://www.vogella.com/tutorials/GitSubmodules/article.html) and [git documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules) for using git submodules.] for each chapter package
+
+Each contributed chapter package will contain the vignette and supporting materials. The Parent
+package contains the bookdown configuration files. The `.Rmd` files for each chapter package will
+be copied into the top-level directory of the Parent package by scripts in this package. 
+
 
 # Contributor workflow
+
+All work on content, package dependencies for their workflows, etc. occur
+within the contributor's own workflow package. Workflow packages are included 
+in the final bookdown Parent package via inclusion in the Parent package `DESCRIPTION`
+file in the `Depends` and, likely, in the `Remotes` sections.
 
 ## Creating the package and vignette
 
@@ -77,6 +82,22 @@ get to the installed vignette materials:
 ```{r eval=FALSE}
 dir(system.file(package='CoolWorkshopPackage', 'vignettes'))
 ```
+
+## Building and testing the contributed package
+
+For the most part, building and testing the contributed package can follow best practice guidelines for
+package building, checking, and testing. 
+
+Additional testing includes:
+
+- Ensuring that the installed package includes a `vignettes` folder. 
+    ```{r eval=FALSE}
+    dir(system.file(package='CoolWorkshopPackage', 'vignettes'))
+    ```
+
+- Building the vignette using bookdown defaults to look for formatting issues.
+- Building the vignette using epub and pdf formats, again looking for formatting issues.
+
 
 # Editor workflow
 
