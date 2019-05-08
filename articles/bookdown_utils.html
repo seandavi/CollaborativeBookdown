@@ -139,6 +139,26 @@
 </li>
 </ul>
 </div>
+<div id="contributor-workflow" class="section level1">
+<h1 class="hasAnchor">
+<a href="#contributor-workflow" class="anchor"></a>Contributor workflow</h1>
+<div id="creating-the-package-and-vignette" class="section level2">
+<h2 class="hasAnchor">
+<a href="#creating-the-package-and-vignette" class="anchor"></a>Creating the package and vignette</h2>
+<ul>
+<li>Create a normal R package.</li>
+<li>Create a <code>vignettes</code> directory</li>
+<li>Create your vignette as PACKAGENAME.Rmd (use same capitalization, etc. as your package name)</li>
+<li>Create a <strong>FOLDER</strong> within the <code>vignettes</code> directory named <em>exactly</em> as your package. Place any files specific to your vignettes in that folder (bibliography, images, etc.).</li>
+<li>When writing your vignette, reference any additional files from the folder above.</li>
+</ul>
+<p>Finally, create a soft link between the <code>vignettes</code> directory and the <code>inst</code> directory. For example, in the top level directory of your package do:</p>
+<pre><code>mkdir inst
+ln -s vignettes inst/vignettes</code></pre>
+<p>After this, commit to git if desired. Installing your package will now include the vignette directory and all supporting vignette files. For a package named <code>CoolWorkshopPackage</code>, in R, this code will get to the installed vignette materials:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package=</span><span class="st">'CoolWorkshopPackage'</span>, <span class="st">'vignettes'</span>))</a></code></pre></div>
+</div>
+</div>
 <div id="editor-workflow" class="section level1">
 <h1 class="hasAnchor">
 <a href="#editor-workflow" class="anchor"></a>Editor workflow</h1>
@@ -245,6 +265,11 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#overview">Overview</a></li>
       <li><a href="#high-level-implementation">High-level implementation</a></li>
+      <li>
+<a href="#contributor-workflow">Contributor workflow</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#creating-the-package-and-vignette">Creating the package and vignette</a></li>
+      </ul>
+</li>
       <li><a href="#editor-workflow">Editor workflow</a></li>
       <li>
 <a href="#howtos">HOWTOs</a><ul class="nav nav-pills nav-stacked">
