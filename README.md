@@ -20,22 +20,10 @@ R packages so that R dependencies, code, and extended documentation can be inclu
 contributors. Installing the "parent" repository will lead to versioned installations
 of each "chapter" repository.
 
-# High-level implementation
-
-- Parent package
-  - DESCRIPTION file
-    - contains Depends for each chapter package
-    - contains Remotes for each chapter package, ideally tied to individual tag, branch, or commit.
-  - _bookdown.yml
-    - contains `rmd_files` tag that lists `.Rmd` file locations--**these vignettes will be 
-    located in git submodules as described next**
-  - `workshops` directory
-    - contains git submodules^[see [a tutorial](https://www.vogella.com/tutorials/GitSubmodules/article.html) and [git documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules) for using git submodules.] for each chapter package
-
 ## installation
 
 ```
-remotes::install_github('seandavi/BookdownUtils')
+remotes::install_github('seandavi/CollaborativeBookdown')
 ```
 
 
