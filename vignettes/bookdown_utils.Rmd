@@ -90,7 +90,7 @@ package building, checking, and testing.
 
 Additional testing includes:
 
-- Ensuring that the installed package includes a `vignettes` folder. 
+- Ensuring that your **installed package** includes a `vignettes` folder. 
     ```{r eval=FALSE}
     dir(system.file(package='CoolWorkshopPackage', 'vignettes'))
     ```
@@ -105,24 +105,6 @@ Additional testing includes:
 - Do local testing.
 - Pull request.
 - ???? Can we use github actions to perform CI/CD?
-
-# HOWTOs
-
-## Set up a `Parent` package
-
-## Add a new chapter and chapter package
-
-## Update a chapter and chapter package
-
-## Build the book
-
-# Questions
-
-- What happens when the vignette contains extra files?
-- What happens with references?
-- Do we need to muck with the `yaml` front matter before building vignettes?
-- Can/should we use a `dotfile` in the child chapter packages to signal where the 
-vignette is located, or should we store that detail in the `_bookdown.yml` file directly?
 
 # Authoring notes
 
