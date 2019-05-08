@@ -1,12 +1,12 @@
 ---
-title: "BookdownUtils: an opinionated approach to building a collaborative bookdown book"
+title: "CollaborativeBookdown: an opinionated approach to building a collaborative bookdown book"
 author:
 - name: Add author name
   affiliation: Add affiliation
 - name: Sean Davis
   affiliation: Center for Cancer Research, National Cancer Institute, National Institutes of Health, Bethesda, MD
   email: seandavi@gmail.com
-package: BookdownUtils
+package: CollaborativeBookdown
 output:
   BiocStyle::html_document
 abstract: |
@@ -16,7 +16,7 @@ abstract: |
   for chapters are complex, there are multiple contributors, and there is interest
   in having independent chapters, a slightly more complicated workflow is necessary.
   This vignette serves as a guide for colloboratively edited bookdown-based material
-  where each chapter is encapsulated by an independent R package.
+  where *each chapter is encapsulated by an independent R package*.
 vignette: |
   %\VignetteIndexEntry{BookdownUtils: an opinionated approach to building a collaborative bookdown book}
   %\VignetteEngine{knitr::rmarkdown}

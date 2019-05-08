@@ -1,4 +1,4 @@
-Package: BookdownUtils
+Package: CollaborativeBookdown
 Title: Utilities and documentation for building collaborative bookdown materials
 Version: 0.1.0
 Authors@R: c(
