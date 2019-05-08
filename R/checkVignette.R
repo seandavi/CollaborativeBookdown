@@ -18,6 +18,19 @@
   }
 }
 
+#' Fix multiple first-level headers in an R markdown file
+#' 
+#' Bookdown markdown headers are special in that each
+#' chapter *must* start with a first-level header `#`.
+#' 
+#' A common workflow is to have each "chapter" respresented
+#' as a single `.Rmd` file. Functions to check and then fix
+#' `.Rmd` files programmatically facilitate finding and fixing
+#' vignettes that do not meet these criteria. 
+#' 
+#' @param rmdfile character(1) path to a `.Rmd` file
+#' 
+#' @export
 fixMultipleFirstLevelHeaders = function(rmdfile) {
   txt = .readVignette(rmdfile)
   firstLevelHeaderLines = .getFirstLevelHeaderLines(txt)
@@ -29,7 +42,19 @@ fixMultipleFirstLevelHeaders = function(rmdfile) {
   return(txt)
 }
 
-
+#' Check an `.Rmd` file that will be included in bookdown
+#' 
+#' Bookdown markdown headers are special in that each
+#' chapter *must* start with a first-level header `#`.
+#' 
+#' A common workflow is to have each "chapter" respresented
+#' as a single `.Rmd` file. Functions to check and then fix
+#' `.Rmd` files programmatically facilitate finding and fixing
+#' vignettes that do not meet these criteria. 
+#' 
+#' @param rmdfile character(1) path to a `.Rmd` file
+#' 
+#' @export
 checkVignette = function(rmdfile) {
   lines = .readVignette(rmdfile)
   .checkForMultipleFirstLevelHeaders(lines)
