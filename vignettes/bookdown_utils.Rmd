@@ -1,0 +1,94 @@
+---
+title: "BookdownUtils: an opinionated approach to building a collaborative bookdown book"
+author:
+- name: Add author name
+  affiliation: Add affiliation
+- name: Sean Davis
+  affiliation: Center for Cancer Research, National Cancer Institute, National Institutes of Health, Bethesda, MD
+  email: seandavi@gmail.com
+package: BookdownUtils
+output:
+  BiocStyle::html_document
+abstract: |
+  Description of your vignette
+vignette: |
+  %\VignetteIndexEntry{BookdownUtils: an opinionated approach to building a collaborative bookdown book}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Overview
+
+The `r CRANpkg("bookdown")` package can be used to build gitbook books from
+multiple R markdown documents. The process for doing so is well-documented for
+a single user with a directory of R markdown documents. 
+
+A more complicated use case includes some additional requirements.
+
+- The materials and R packages required to successfully run the materials
+in the book should be installable, including dependencies.
+- Book chapters will be authored by individual contributors and each should
+be able to control when new content is merged into the book while still
+being able to work independently on their own materials.
+- Contributions from each user should themselves be versioned, coupled to a
+particular version of the book, and potentially decoupled from the book to 
+include or exclude content.
+- Individual chapters and (and should) be incorporated into individual installable
+R packages so that R dependencies, code, and extended documentation can be included.
+- The bookdown "parent" repository will depend on the packages from individual 
+contributors. Installing the "parent" repository will lead to versioned installations
+of each "chapter" repository.
+
+# High-level implementation
+
+- Parent package
+  - DESCRIPTION file
+    - contains Depends for each chapter package
+    - contains Remotes for each chapter package, ideally tied to individual tag, branch, or commit.
+  - _bookdown.yml
+    - contains `rmd_files` tag that lists `.Rmd` file locations--**these vignettes will be 
+    located in git submodules as described next**
+  - `workshops` directory
+    - contains git submodules^[see [a tutorial](https://www.vogella.com/tutorials/GitSubmodules/article.html) and [git documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules) for using git submodules.] for each chapter package
+
+# Editor workflow
+
+- Create fork of Parent package
+- Do local testing.
+- Pull request.
+- ???? Can we use github actions to perform CI/CD?
+
+# HOWTOs
+
+## Set up a `Parent` package
+
+## Add a new chapter and chapter package
+
+## Update a chapter and chapter package
+
+## Build the book
+
+# Questions
+
+- What happens when the vignette contains extra files?
+- What happens with references?
+- Do we need to muck with the `yaml` front matter before building vignettes?
+- Can/should we use a `dotfile` in the child chapter packages to signal where the 
+vignette is located, or should we store that detail in the `_bookdown.yml` file directly?
+
+# Authoring notes
+
+## Style macros
+
+_BiocStyle_ introduces the following macros for referring to _R_ packages:
+
+* `r Biocpkg("IRanges")`, for _Bioconductor_ software, annotation and experiment data packages,
+* `r CRANpkg("data.table")`, for _R_ packages available on CRAN,
+* `r Githubpkg("rstudio/rmarkdown")`, for _R_ packages available on GitHub,
+* `r Rpackage("MyPkg")`, for _R_ packages that are _not_ available on _Bioconductor_, CRAN or GitHub.
+
+# Session info {.unnumbered}
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
