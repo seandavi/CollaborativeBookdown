@@ -51,6 +51,33 @@ of each "chapter" repository.
   - `workshops` directory
     - contains git submodules^[see [a tutorial](https://www.vogella.com/tutorials/GitSubmodules/article.html) and [git documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules) for using git submodules.] for each chapter package
 
+# Contributor workflow
+
+## Creating the package and vignette
+
+- Create a normal R package.
+- Create a `vignettes` directory
+- Create your vignette as PACKAGENAME.Rmd (use same capitalization, etc. as your package name)
+- Create a **FOLDER** within the `vignettes` directory named *exactly* as your package. Place any
+files specific to your vignettes in that folder (bibliography, images, etc.). 
+- When writing your vignette, reference any additional files from the folder above. 
+
+Finally, create a soft link between the `vignettes` directory and the `inst` directory. For example, in the 
+top level directory of your package do:
+
+```
+mkdir inst
+ln -s vignettes inst/vignettes
+```
+
+After this, commit to git if desired. Installing your package will now include the vignette directory and 
+all supporting vignette files. For a package named `CoolWorkshopPackage`, in R, this code will
+get to the installed vignette materials:
+
+```{r eval=FALSE}
+dir(system.file(package='CoolWorkshopPackage', 'vignettes'))
+```
+
 # Editor workflow
 
 - Create fork of Parent package
