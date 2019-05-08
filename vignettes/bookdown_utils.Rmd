@@ -10,7 +10,13 @@ package: BookdownUtils
 output:
   BiocStyle::html_document
 abstract: |
-  Description of your vignette
+  The `r CRANpkg("bookdown")` package can be used to build gitbook books from
+  multiple R markdown documents. The process for doing so is well-documented for
+  a single user with a directory of R markdown documents. When dependencies 
+  for chapters are complex, there are multiple contributors, and there is interest
+  in having independent chapters, a slightly more complicated workflow is necessary.
+  This vignette serves as a guide for colloboratively edited bookdown-based material
+  where each chapter is encapsulated by an independent R package.
 vignette: |
   %\VignetteIndexEntry{BookdownUtils: an opinionated approach to building a collaborative bookdown book}
   %\VignetteEngine{knitr::rmarkdown}
