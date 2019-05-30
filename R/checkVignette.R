@@ -10,12 +10,15 @@
   lineNumbers = .getFirstLevelHeaderLines(txt)
   headerLineCount = length(lineNumbers)
   if(headerLineCount<1) {
-    stop("must have one first-level header in rmarkdown: none found")
+    return(simpleError("must have one first-level header in rmarkdown: none found"))
   }
   if(headerLineCount>1) {
-    stop(sprintf("only one line may have a first-level header. Found multiple \nlines [%s].", 
-                 paste(lineNumbers, collapse=", ")))
+    return(simpleError(
+      message = sprintf("only one line may have a first-level header. Found multiple \nlines [%s].", 
+                   paste(lineNumbers, collapse=", ")))
+    )
   }
+  return(TRUE)
 }
 
 #' Fix multiple first-level headers in an R markdown file
@@ -27,6 +30,8 @@
 #' as a single `.Rmd` file. Functions to check and then fix
 #' `.Rmd` files programmatically facilitate finding and fixing
 #' vignettes that do not meet these criteria. 
+#' 
+#' @return the text lines of the corrected file.
 #' 
 #' @param rmdfile character(1) path to a `.Rmd` file
 #' 
@@ -55,9 +60,11 @@ fixMultipleFirstLevelHeaders = function(rmdfile) {
 #' @param rmdfile character(1) path to a `.Rmd` file
 #' 
 #' @export
-checkVignette = function(rmdfile) {
-  lines = .readVignette(rmdfile)
-  .checkForMultipleFirstLevelHeaders(lines)
+checkVignette = function(rmdfiles) {
+  sapply(rmdfiles, function(rmdfile) {
+    lines = .readVignette(rmdfile)
+    .checkForMultipleFirstLevelHeaders(lines)
+  })
 }
 
 #' Check for installed Rmd files in system package directory

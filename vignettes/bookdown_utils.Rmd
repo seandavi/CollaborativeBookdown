@@ -57,53 +57,6 @@ package contains the bookdown configuration files. The `.Rmd` files for each cha
 be copied into the top-level directory of the Parent package by scripts in this package. 
 
 
-# Contributor workflow
-
-All work on content, package dependencies for their workflows, etc. occur
-within the contributor's own workflow package. Workflow packages are included 
-in the final bookdown Parent package via inclusion in the Parent package `DESCRIPTION`
-file in the `Depends` and, likely, in the `Remotes` sections.
-
-## Creating the package and vignette
-
-- Create a normal R package.
-- Create a `vignettes` directory
-- Create your vignette as PACKAGENAME.Rmd (use same capitalization, etc. as your package name)
-- Create a **FOLDER** within the `vignettes` directory named *exactly* as your package. Place any
-files specific to your vignettes in that folder (bibliography, images, etc.). 
-- When writing your vignette, reference any additional files from the folder above. 
-
-Finally, create a soft link between the `vignettes` directory and the `inst` directory. For example, in the 
-top level directory of your package do:
-
-```
-mkdir inst
-ln -s vignettes inst/vignettes
-```
-
-After this, commit to git if desired. Installing your package will now include the vignette directory and 
-all supporting vignette files. For a package named `CoolWorkshopPackage`, in R, this code will
-get to the installed vignette materials:
-
-```{r eval=FALSE}
-dir(system.file(package='CoolWorkshopPackage', 'vignettes'))
-```
-
-## Building and testing the contributed package
-
-For the most part, building and testing the contributed package can follow best practice guidelines for
-package building, checking, and testing. 
-
-Additional testing includes:
-
-- Ensuring that your **installed package** includes a `vignettes` folder. 
-    ```{r eval=FALSE}
-    dir(system.file(package='CoolWorkshopPackage', 'vignettes'))
-    ```
-
-- Building the vignette using bookdown defaults to look for formatting issues.
-- Building the vignette using epub and pdf formats, again looking for formatting issues.
-
 
 # Editor workflow
 

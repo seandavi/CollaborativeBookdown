@@ -1,0 +1,136 @@
+---
+title: "Using CollaborativeBookdown"
+author:
+- name: Sean Davis
+  affiliation: National Cancer Institute, National Institutes of Health
+  email: seandavi@gmail.com
+package: CollaborativeBookdown
+output:
+  BiocStyle::html_document
+abstract: |
+  Description of your vignette
+vignette: |
+  %\VignetteIndexEntry{Using CollaborativeBookdown}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Overview
+
+The `r CRANpkg("bookdown")` package can be used to build gitbook books from
+multiple R markdown documents. The process for doing so is well-documented for
+a single user with a directory of R markdown documents. 
+
+A more complicated use case includes some additional requirements.
+
+- The materials and R packages required to successfully run the materials
+in the book should be installable, including dependencies.
+- Book chapters will be authored by individual contributors and each should
+be able to control when new content is merged into the book while still
+being able to work independently on their own materials.
+- Contributions from each user should themselves be versioned, coupled to a
+particular version of the book, and potentially decoupled from the book to 
+include or exclude content.
+- Individual chapters and (and should) be incorporated into individual installable
+R packages so that R dependencies, code, and extended documentation can be included.
+- The bookdown "parent" repository will depend on the packages from individual 
+contributors. Installing the "parent" repository will lead to versioned installations
+of each "chapter" repository.
+
+
+# Introduction
+
+```{r message=FALSE, warning=FALSE}
+library(CollaborativeBookdown)
+```
+
+# Usage
+
+## Testing contributed packages
+
+The first concern when building a collaborative bookdown
+book based on workshop packages is to test which of the 
+packages actually installs. The `testPackageInstalls()` function
+takes a character vector of [repository strings] **PUT IN REMOTES HERE**.
+The convenience function `repoFromURLs()` can convert from plain
+URLs to the format needed for installation.
+
+
+```{r testpkginstall, message=FALSE, warning=FALSE, eval=FALSE}
+z1 = testPackageInstalls(repos)
+head(z1)
+```
+
+Once testing for individual package installations has completed,
+a second step is to test and install the package **including 
+vignette build and installation**. The output will again be a
+three-column data.frame with details of the install process.
+
+Calling the `testPackageInstalls()` function again, but with additional
+parameters will install each package, build vignettes, and install those
+as well.
+
+
+```{r message=FALSE, warning=FALSE, eval=FALSE}
+z2 = testPackageInstalls(repos, build=TRUE, build_opts="", force=TRUE)
+```
+
+# Package vignettes to bookdown
+
+## Finding installed package vignettes
+
+Since the `r Githubpkg('seandavi/CollaborativeBookdown')` package needs
+to have access to the *R markdown* source which should have been installed
+with the package, a convenience function returns a data frame of packages, 
+absolute paths to each vignette, and the vignette filename (for easy linking
+if that is desirable).
+
+```{r installedVignettes}
+ivignettes = installedVignettes(c('BiocManager','GEOquery', 'dplyr', 'abc'))
+ivignettes
+```
+
+
+## Checking package vignettes
+
+
+```{r fakeRmdFile}
+temp = tempfile()
+rmdtest = paste("# A test of multiple headers",
+"", "# second header", "",
+"And some text", sep="\n")
+writeLines(rmdtest, temp)
+```
+
+Bookdown has some special requirements for R markdown files that are going
+to appear as chapters in a bookdown book.
+
+1. Chapters must contain one and only one chapter header.
+
+The `checkVignette()` function performs some basic checks to see if the 
+supplied `.Rmd` files meet these criteria.
+
+```{r}
+checkVignette(temp)
+```
+
+## Fixing common vignette problems
+
+The test `.Rmd` file has incorrectly specified the number of headers. The
+`fixMultipleFirstLevelHeaders()` function implements a kludge to fix the file.
+
+```{r}
+cat(paste(fixMultipleFirstLevelHeaders(temp),collapse="\n"))
+```
+
+The new text has demoted all the first-level headers--except the first one--to 
+second-level headers. If necessary, use `writeLines` to write out the results
+to a file.
+
+
+
+# sessionInfo()
+
+```{r}
+devtools::session_info()
+```

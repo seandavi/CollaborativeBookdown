@@ -4,7 +4,7 @@
 \alias{checkVignette}
 \title{Check an `.Rmd` file that will be included in bookdown}
 \usage{
-checkVignette(rmdfile)
+checkVignette(rmdfiles)
 }
 \arguments{
 \item{rmdfile}{character(1) path to a `.Rmd` file}

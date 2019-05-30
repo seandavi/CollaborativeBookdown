@@ -9,6 +9,9 @@ fixMultipleFirstLevelHeaders(rmdfile)
 \arguments{
 \item{rmdfile}{character(1) path to a `.Rmd` file}
 }
+\value{
+the text lines of the corrected file.
+}
 \description{
 Bookdown markdown headers are special in that each
 chapter *must* start with a first-level header `#`.

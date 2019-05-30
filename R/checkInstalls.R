@@ -11,6 +11,9 @@ checkInstalls = function(pkg, ...) {
   if(parts$ref!='') repo = paste(repo, parts$ref, sep='@')
   if(parts$pull!='') repo = paste(repo, parts$pull, sep='#')
   if(parts$release!='') repo = paste(repo, parts$release, sep='@*')
+  # TODO put in package name checking to allow `pkgname=user/repo`
+  # from github. read.dcf(gibhub_DESCRIPTION())
+  # TODO should I mark each package with a commit hash? Probably.
   repo
 }
 
