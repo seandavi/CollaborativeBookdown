@@ -32,7 +32,7 @@ checkInstalls = function(pkg, ...) {
 #' 
 #' @param urls character() vector of git URLs
 #' 
-#' @returns named character() vector of repos that can be fed 
+#' @return named character() vector of repos that can be fed 
 #' directly to \code{\link[BiocManager]{install}}
 #' 
 #' @importFrom stringr str_match
@@ -69,6 +69,10 @@ repoFromURLs = function(urls) {
 #' 
 #' @importFrom BiocManager install
 #' @importFrom BiocParallel bplapply
+#' @importFrom tibble tibble
+#' 
+#' @return a three column tibble with repo name, install status, and 
+#'     any errors (typically simpleErrors).
 #' 
 #' @seealso \code{\link[remotes]{install_github}}
 #' 
@@ -76,16 +80,21 @@ repoFromURLs = function(urls) {
 testPackageInstalls = function(repos, update = FALSE, upgrade="never", dependencies = TRUE, ...) {
   res = bplapply(repos,
                function(pkg) {
+                 # TODO implement timing info
                  msg = list(success=TRUE, message=NULL)
                  tryCatch(
-                   BiocManager::install(pkg, dependencies=dependencies, 
+                   BiocManager::install(pkg,  dependencies=dependencies, 
                                         update=update, upgrade=upgrade, ...),
                    error = function(e) e)
+                  
                }
   )
   OK = !sapply(res, inherits, 'error')
   msgs = rep('', length(res))
-  msgs[!OK] = sapply(res[!OK], '[[', 'message')
-  return(data.frame(repo = repos, OK = OK, message = msgs))
+  if(sum(!OK))
+    msgs[!OK] = res[!OK]
+  ret = tibble::tibble(repo = repos, OK = OK, message = msgs)
+  class(ret) = c("install_test_result",class(ret))
+  ret
 }
 

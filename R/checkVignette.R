@@ -72,6 +72,8 @@ checkVignette = function(rmdfile) {
 #'     \code{\link{installed.packages}} will be consulted
 #'     and uninstalled packages ignored
 #' @importFrom utils installed.packages
+#' @importFrom dplyr bind_rows 
+#' @importFrom tibble tibble
 #' 
 #' @export
 installedVignettes = function(pkgs) {
@@ -82,10 +84,10 @@ installedVignettes = function(pkgs) {
     filename = list.files(system.file(package=pkg, 'doc'),pattern='*.Rmd')
     if(length(filename)==0)
       return(data.frame(pkg=NULL, path=NULL, filename=NULL))
-    data.frame(package = pkg,
+    tibble::tibble(package = pkg,
                path = list.files(system.file(package=pkg, 'doc'),pattern='*.Rmd',full.names = TRUE),
                filename = list.files(system.file(package=pkg, 'doc'),pattern='*.Rmd'))
   })
   names(iVignettes) = pkgs2
-  return(iVignettes)
+  return(dplyr::bind_rows(iVignettes))
 }

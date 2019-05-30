@@ -9,6 +9,10 @@ repoFromURLs(urls)
 \arguments{
 \item{urls}{character() vector of git URLs}
 }
+\value{
+named character() vector of repos that can be fed 
+directly to \code{\link[BiocManager]{install}}
+}
 \description{
 For github, uses \code{\link[remotes]{parse_github_url}} to do the
 work. For Bioconductor, simply looks for stuff like:

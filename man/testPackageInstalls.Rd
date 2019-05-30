@@ -19,6 +19,10 @@ passed to `figureInstallString`)}
 
 \item{...}{passed to \code{\link[BiocManager]{install}}}
 }
+\value{
+a three column tibble with repo name, install status, and 
+    any errors (typically simpleErrors).
+}
 \description{
 Test package installation success
 }
