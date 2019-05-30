@@ -59,3 +59,32 @@ checkVignette = function(rmdfile) {
   lines = .readVignette(rmdfile)
   .checkForMultipleFirstLevelHeaders(lines)
 }
+
+#' Check for installed Rmd files in system package directory
+#' 
+#' When built packages are installed or packages are 
+#' installed with building vignettes enabled, the vignette
+#' `.Rmd` file(s) are included in the installation. This
+#' function is just a convenience function for finding
+#' package vignettes that have been installed, if any.
+#' 
+#' @param pkgs a character() vector of installed packages; 
+#'     \code{\link{installed.packages}} will be consulted
+#'     and uninstalled packages ignored
+#'     
+#' @export
+installedVignettes = function(pkgs) {
+  inst_pkgs = installed.packages()
+  pkgs2 = intersect(pkgs, inst_pkgs)
+  iVignettes = lapply(pkgs2, function(pkg) {
+    path = list.files(system.file(package=pkg, 'doc'),pattern='*.Rmd',full.names = TRUE)
+    filename = list.files(system.file(package=pkg, 'doc'),pattern='*.Rmd')
+    if(length(filename)==0)
+      return(data.frame(pkg=NULL, path=NULL, filename=NULL))
+    data.frame(package = pkg,
+               path = list.files(system.file(package=pkg, 'doc'),pattern='*.Rmd',full.names = TRUE),
+               filename = list.files(system.file(package=pkg, 'doc'),pattern='*.Rmd'))
+  })
+  names(iVignettes) = pkgs2
+  return(iVignettes)
+}
