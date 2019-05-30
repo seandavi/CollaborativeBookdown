@@ -71,7 +71,8 @@ checkVignette = function(rmdfile) {
 #' @param pkgs a character() vector of installed packages; 
 #'     \code{\link{installed.packages}} will be consulted
 #'     and uninstalled packages ignored
-#'     
+#' @importFrom utils installed.packages
+#' 
 #' @export
 installedVignettes = function(pkgs) {
   inst_pkgs = installed.packages()

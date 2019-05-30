@@ -16,7 +16,12 @@ passed to `figureInstallString`)}
 \item{upgrade}{passed to \code{\link[BiocManager]{install}}}
 
 \item{dependencies}{passed to \code{\link[BiocManager]{install}}}
+
+\item{...}{passed to \code{\link[BiocManager]{install}}}
 }
 \description{
 Test package installation success
+}
+\seealso{
+\code{\link[remotes]{install_github}}
 }

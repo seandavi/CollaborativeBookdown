@@ -11,7 +11,9 @@ Description: Building a collaborative book using the bookdown package
     and supporting functions for doing so. 
 Depends: 
 Suggests: bookdown
-Imports: stringr
+Imports: stringr,
+    utils,
+    BiocManager
 License: MIT + file LICENSE
 URL: https://github.com/seandavi/BookdownUtils
 BugReports: https://github.com/seandavi/BookdownUtils/issues/new
