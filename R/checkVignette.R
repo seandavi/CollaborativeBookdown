@@ -57,7 +57,7 @@ fixMultipleFirstLevelHeaders = function(rmdfile) {
 #' `.Rmd` files programmatically facilitate finding and fixing
 #' vignettes that do not meet these criteria. 
 #' 
-#' @param rmdfile character(1) path to a `.Rmd` file
+#' @param rmdfiles character() path to a (set of) `.Rmd` file(s)
 #' 
 #' @export
 checkVignette = function(rmdfiles) {

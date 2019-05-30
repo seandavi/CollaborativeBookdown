@@ -7,7 +7,7 @@
 checkVignette(rmdfiles)
 }
 \arguments{
-\item{rmdfile}{character(1) path to a `.Rmd` file}
+\item{rmdfiles}{character() path to a (set of) `.Rmd` file(s)}
 }
 \description{
 Bookdown markdown headers are special in that each

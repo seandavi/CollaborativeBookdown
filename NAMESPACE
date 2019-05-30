@@ -3,7 +3,7 @@
 export(checkVignette)
 export(fixMultipleFirstLevelHeaders)
 export(installedVignettes)
-export(repoFromURLs)
+export(reposFromURLs)
 export(testPackageInstalls)
 importFrom(BiocManager,install)
 importFrom(BiocParallel,bplapply)

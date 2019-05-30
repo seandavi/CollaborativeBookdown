@@ -44,10 +44,10 @@ checkInstalls = function(pkg, ...) {
 #' 
 #' repos = c("https://github.com/seandavi/GEOquery",
 #'           "https://git.bioconductor.org/packages/RNAseq123")
-#' figureInstallString(repos)
+#' reposFromURLs(repos)
 #' 
 #' @export
-repoFromURLs = function(urls) {
+reposFromURLs = function(urls) {
   urls
   
   rets = sapply(urls, function(url) {
