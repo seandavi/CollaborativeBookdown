@@ -18,7 +18,8 @@ Imports:
     BiocManager,
     BiocParallel,
     tibble,
-    dplyr
+    dplyr, 
+    remotes
 License: MIT + file LICENSE
 URL: https://github.com/seandavi/BookdownUtils
 BugReports: https://github.com/seandavi/BookdownUtils/issues/new
