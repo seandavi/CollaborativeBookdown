@@ -2,9 +2,38 @@ checkInstalls = function(pkg, ...) {
   BiocManager::install(pkg, ...)
 }
 
+
+#' @importFrom remotes parse_github_url
+#' @importFrom BiocManager install
+.repoFromGithubURL = function(url, ...) {
+  parts = remotes::parse_github_url(url)
+  repo = paste(parts$username, parts$repo, sep="/")
+  if(parts$ref!='') repo = paste(repo, parts$ref, sep='@')
+  if(parts$pull!='') repo = paste(repo, parts$pull, sep='#')
+  if(parts$release!='') repo = paste(repo, parts$release, sep='@*')
+  repo
+}
+
+#' @importFrom stringr str_match
+#' @importFrom BiocManager install
+.repoFromBiocGitURL = function(url, ...) {
+  str_match(url,".*[/@]+git.bioconductor.org/packages/(.*)")[,2]
+}
+
+.repoRegexMatcher = list("github.com" = .repoFromGithubURL,
+                         "git.bioconductor.org/packages/" = .repoFromBiocGitURL)
+
+
 #' From git-like URLs, return the correct install string
 #' 
-#' @param repos character() vector of git URLs
+#' For github, uses \code{\link[remotes]{parse_github_url}} to do the
+#' work. For Bioconductor, simply looks for stuff like:
+#' "https://git.bioconductor.org/packages/PKGNAME".
+#' 
+#' @param urls character() vector of git URLs
+#' 
+#' @returns named character() vector of repos that can be fed 
+#' directly to \code{\link[BiocManager]{install}}
 #' 
 #' @importFrom stringr str_match
 #' 
@@ -15,26 +44,15 @@ checkInstalls = function(pkg, ...) {
 #' figureInstallString(repos)
 #' 
 #' @export
-figureInstallString = function(repos) {
-  rets = repos
+repoFromURLs = function(urls) {
+  urls
   
-  # standard github urls
-  githubs = grep("^http[s]?://github.com/.*", rets)
-  if(length(githubs)>0) {
-    rets[githubs] = 
-      sapply(rets[githubs], function(repo) {
-        m = str_match(repo,"http[s]?://github.com/(.*)/(.*)")
-        paste(m[1,2:3], collapse='/')
-      })
-    # remove trailing .git if present from githubs
-    rets[githubs] = sub('\\.git$', '', rets[githubs])
-  }
-  # Bioc git url?
-  biocs = grep(".*://git.bioconductor.org/packages/.*", rets)
-  if(length(biocs)>0) {
-    rets[biocs] = 
-      str_match(rets[biocs],".*://git.bioconductor.org/packages/(.*)")[,2]
-  }
+  rets = sapply(urls, function(url) {
+    which_matching = which(sapply(names(.repoRegexMatcher), grepl, url))
+    if(length(which_matching)==0)
+      return(url)
+    return(.repoRegexMatcher[[which_matching[1]]](url))
+  })
   
   rets
 }
@@ -50,12 +68,13 @@ figureInstallString = function(repos) {
 #' @param ... passed to \code{\link[BiocManager]{install}}
 #' 
 #' @importFrom BiocManager install
+#' @importFrom BiocParallel bplapply
 #' 
 #' @seealso \code{\link[remotes]{install_github}}
 #' 
 #' @export
 testPackageInstalls = function(repos, update = FALSE, upgrade="never", dependencies = TRUE, ...) {
-  res = sapply(figureInstallString(repos),
+  res = bplapply(repos,
                function(pkg) {
                  msg = list(success=TRUE, message=NULL)
                  tryCatch(
@@ -64,6 +83,9 @@ testPackageInstalls = function(repos, update = FALSE, upgrade="never", dependenc
                    error = function(e) e)
                }
   )
-  res
+  OK = !sapply(res, inherits, 'error')
+  msgs = rep('', length(res))
+  msgs[!OK] = sapply(res[!OK], '[[', 'message')
+  return(data.frame(repo = repos, OK = OK, message = msgs))
 }
 
