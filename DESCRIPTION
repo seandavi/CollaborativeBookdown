@@ -1,7 +1,7 @@
 Package: CollaborativeBookdown
 Title: Utilities and documentation for building collaborative bookdown materials
-Version: 0.1.5
-Date: 2019-06-12
+Version: 0.1.6
+Date: 2019-06-13
 Authors@R: c(
    person("Sean", "Davis", email = "seandavi@gmail.com", role = c("aut", "cre"))
    )
@@ -13,7 +13,6 @@ Description: Building a collaborative book using the bookdown package
 Depends: 
 Suggests: 
     bookdown,
-    rmarkdown,
     knitr,
     webshot
 Imports: 
@@ -25,7 +24,8 @@ Imports:
     dplyr,
     remotes,
     desc, 
-    git2r
+    git2r, 
+    rmarkdown
 License: MIT + file LICENSE
 URL: https://github.com/seandavi/BookdownUtils
 BugReports: https://github.com/seandavi/BookdownUtils/issues/new

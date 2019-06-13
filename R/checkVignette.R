@@ -98,3 +98,20 @@ installedVignettes = function(pkgs) {
   names(iVignettes) = pkgs2
   return(dplyr::bind_rows(iVignettes))
 }
+
+
+.yamlFrontmatterFromRmd = function(fname, ...) {
+  rmarkdown::yaml_front_matter(fname, ...)
+}
+
+# NOT READY YET
+# Need to tie these filenames to packages to get locations
+getMarkdownBibliographyFilename = function(fnames, ...) {
+  Filter(
+    function(x) !is.null(x),
+    sapply(fnames, function(f) {
+      res = rmarkdown::yaml_front_matter(f)
+      if('bibliography' %in% names(res)) return(res$bibliography)
+      return(NULL)
+    }))
+}

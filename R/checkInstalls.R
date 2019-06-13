@@ -85,7 +85,7 @@ loggingPackageInstall = function(repo, capture_prefix=paste0(pkg, '-'), path = g
   system2("Rscript", sprintf('-e "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS=TRUE); BiocManager::install(\'%s\', upgrade=\'always\', build=TRUE, build_opts=\'\', dependencies=TRUE)"', repo),
           stdout = file.path(path, paste0(capture_prefix,'stdout.log')), 
           stderr = file.path(path, paste0(capture_prefix,'stderr.log')))
-  if(pkg %in% rownames(installed.packages())) {
+  if(!(pkg %in% rownames(installed.packages()))) {
     stop(sprintf("pkg %s from repo %s did not end up installing. ", pkg, repo))
   }
   return(pkg)
