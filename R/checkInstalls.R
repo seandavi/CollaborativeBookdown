@@ -60,6 +60,38 @@ reposFromURLs = function(urls) {
   rets
 }
 
+#' install package and capture output
+#' 
+#' Install a single package and capture stdout and stderr. 
+#' 
+#' @param repo character(1) package name or repo (passed to BiocManager::install)
+#' @param capture_prefix character(1) prefix of files that will end 
+#' up as "capture_prefixstdout.log" and "capture_prefixstdout.log"
+#' 
+#' @importFrom remotes parse_repo_spec
+#' 
+#' @export
+loggingPackageInstall = function(repo, capture_prefix=paste0(pkg, '-'), path = getwd()) {
+  pkg = repo
+  if(grepl('/', repo)) {
+    parsed_repo = remotes::parse_repo_spec(repo)
+    if(parsed_repo$package!='')
+      pkg = parsed_repo$package
+    else
+      pkg = parsed_repo$repo
+  }
+  message(sprintf("Installing pkg %s from repo %s", pkg, repo))
+  message(sprintf('running BiocManager::install(\'%s\', upgrade=\'always\', build=TRUE, build_opts=\'\', dependencies=TRUE)"', repo))
+  system2("Rscript", sprintf('-e "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS=TRUE); BiocManager::install(\'%s\', upgrade=\'always\', build=TRUE, build_opts=\'\', dependencies=TRUE)"', repo),
+          stdout = file.path(path, paste0(capture_prefix,'stdout.log')), 
+          stderr = file.path(path, paste0(capture_prefix,'stderr.log')))
+  if(pkg %in% rownames(installed.packages())) {
+    stop(sprintf("pkg %s from repo %s did not end up installing. ", pkg, repo))
+  }
+  return(pkg)
+}
+
+
 
 #' Test package installation success
 #' 

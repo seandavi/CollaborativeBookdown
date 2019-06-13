@@ -10,7 +10,7 @@
 #' @seealso 
 #' \code{\link[git2r]{clone}}
 #' 
-#' @example 
+#' @examples
 #' repo = cloneRepo('https://github.com/Bioconductor/BiocWorkshops2019', 'bioc2019')
 #' repo$path
 #' dirname(repo$path)
