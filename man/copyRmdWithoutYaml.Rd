@@ -2,14 +2,18 @@
 % Please edit documentation in R/copy_rmd_without_yaml.R
 \name{copyRmdWithoutYaml}
 \alias{copyRmdWithoutYaml}
-\title{copy an R markdown file, but remove yaml header}
+\title{copy an R markdown file, optionally removing yaml frontmatter}
 \usage{
-copyRmdWithoutYaml(srcfile, destfile = basename(srcfile))
+copyRmdWithoutYaml(srcfile, destfile = basename(srcfile),
+  remove.yaml = TRUE)
 }
 \arguments{
 \item{srcfile}{character(1) filename}
 
 \item{destfile}{character(1) filename}
+
+\item{remove.yaml}{logical(1) when copying, remove yaml header
+metadata?}
 }
 \description{
 For building bookdown books, the markdown
