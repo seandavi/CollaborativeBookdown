@@ -2,7 +2,7 @@
 
 export(checkVignette)
 export(cloneRepo)
-export(copyRmdWithoutYaml)
+export(copyRmd)
 export(fixMultipleFirstLevelHeaders)
 export(installedVignettes)
 export(reposFromURLs)

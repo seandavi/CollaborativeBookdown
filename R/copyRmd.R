@@ -15,7 +15,7 @@
 #'   metadata?
 #' 
 #' @export
-copyRmdWithoutYaml = function(srcfile, destfile=basename(srcfile), remove.yaml = TRUE) {
+copyRmd = function(srcfile, destfile=basename(srcfile), remove.yaml = TRUE) {
   tmpfile = tempfile()
   lines = readLines(srcfile)
   if(remove.yaml) {
