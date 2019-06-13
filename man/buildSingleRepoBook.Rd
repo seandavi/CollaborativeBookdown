@@ -25,7 +25,7 @@ the "chapter package".
 }
 \details{
 Steps involved are:
-\begin{itemize}
+\itemize{
 \item{Clone the book repo (must not exist)}
 \item{Change into the book repo directory}
 \item{Install (and capture output) the "chapter package", including
@@ -33,4 +33,5 @@ building the vignette locally.}
 \item{Copy the installed Rmd file into the current directory}
 \item{Build the pdf, epub, and gitbook}
 \item{change back into the original directory}
+}
 }

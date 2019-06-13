@@ -8,7 +8,7 @@
 #' the "chapter package". 
 #' 
 #' Steps involved are:
-#' \begin{itemize}
+#' \itemize{
 #' \item{Clone the book repo (must not exist)}
 #' \item{Change into the book repo directory}
 #' \item{Install (and capture output) the "chapter package", including
@@ -16,6 +16,7 @@
 #' \item{Copy the installed Rmd file into the current directory}
 #' \item{Build the pdf, epub, and gitbook}
 #' \item{change back into the original directory}
+#' }
 #' 
 #' @param book_repo characterr(1) the URL of the book repo; this will
 #' be cloned with git, so make sure that is exptected to work.
