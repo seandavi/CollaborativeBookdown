@@ -14,7 +14,7 @@ being able to work independently on their own materials.
 - Contributions from each user should themselves be versioned, coupled to a
 particular version of the book, and potentially decoupled from the book to 
 include or exclude content.
-- Individual chapters and (and should) be incorporated into individual installable
+- Individual chapters should be incorporated into individual installable
 R packages so that R dependencies, code, and extended documentation can be included.
 - The bookdown "parent" repository will depend on the packages from individual 
 contributors. Installing the "parent" repository will lead to versioned installations

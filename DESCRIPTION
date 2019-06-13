@@ -14,15 +14,17 @@ Depends:
 Suggests: 
     bookdown,
     rmarkdown,
-    knitr
+    knitr,
+    webshot
 Imports: 
     stringr,
     utils,
     BiocManager,
     BiocParallel,
     tibble,
-    dplyr, 
-    remotes
+    dplyr,
+    remotes,
+    desc
 License: MIT + file LICENSE
 URL: https://github.com/seandavi/BookdownUtils
 BugReports: https://github.com/seandavi/BookdownUtils/issues/new
