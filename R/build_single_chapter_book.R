@@ -41,8 +41,8 @@ buildSingleRepoBook = function(book_repo, book_path, pkg_repo) {
     }
     copyRmd(pkg_vignette$path[1])
     print(book_path)
-    system2('Rscript', "-e bookdown::render_book('.', bookdown::pdf_book())")
-    system2('Rscript', "-e bookdown::render_book('.', bookdown::epub_book())")
-    system2('Rscript', "-e bookdown::render_book('.', bookdown::gitbook())")
+    system2('Rscript', "-e 'bookdown::render_book(\'.\', bookdown::pdf_book())'")
+    system2('Rscript', "-e 'bookdown::render_book(\'.\', bookdown::epub_book())'")
+    system2('Rscript', "-e 'bookdown::render_book(\'.\', bookdown::gitbook())'")
   }, finally =  setwd(curdir))
 }
