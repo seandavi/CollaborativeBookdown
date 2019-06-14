@@ -12,10 +12,9 @@ Description: Building a collaborative book using the bookdown package
     and supporting functions for doing so. 
 Depends: 
 Suggests: 
-    bookdown,
-    knitr,
-    webshot
 Imports: 
+    bookdown,
+    webshot,
     stringr,
     utils,
     BiocManager,
