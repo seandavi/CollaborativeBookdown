@@ -1,11 +1,11 @@
 #' clone bookdown master repo
 #' 
-#' @importFrom git2r clone
+#' @importFrom git2r clone repository_head commits
 #' 
 #' @param ... passed directly to git2r::clone
 #' 
 #' @return 
-#' a \code{\link[git2r]{git_repository}} object
+#' a \code{\link[git2r]{repository}} object
 #' 
 #' @seealso 
 #' \code{\link[git2r]{clone}}
@@ -16,10 +16,10 @@
 #' dirname(repo$path)
 #' 
 #' # find "HEAD"
-#' repository_head(repo)
+#' git2r::repository_head(repo)
 #' 
 #' # latest commit
-#' com = commits(repo)[[1]]
+#' com = git2r::commits(repo)[[1]]
 #' print(com$sha)
 #' print(com$summary)
 #' 

@@ -10,7 +10,7 @@ cloneRepo(...)
 \item{...}{passed directly to git2r::clone}
 }
 \value{
-a \code{\link[git2r]{git_repository}} object
+a \code{\link[git2r]{repository}} object
 }
 \description{
 clone bookdown master repo
@@ -21,10 +21,10 @@ repo$path
 dirname(repo$path)
 
 # find "HEAD"
-repository_head(repo)
+git2r::repository_head(repo)
 
 # latest commit
-com = commits(repo)[[1]]
+com = git2r::commits(repo)[[1]]
 print(com$sha)
 print(com$summary)
 

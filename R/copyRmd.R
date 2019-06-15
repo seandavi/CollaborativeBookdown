@@ -1,3 +1,11 @@
+.removeYaml = function(lines) {
+  yaml_delims = grep('^---', lines)
+  if(length(yaml_delims)>1) {
+    lines = lines[(yaml_delims[2]+1):length(lines)]
+  }
+  return(lines)
+}
+
 #' copy an R markdown file, optionally removing yaml frontmatter
 #' 
 #' For building bookdown books, the markdown
@@ -19,10 +27,7 @@ copyRmd = function(srcfile, destfile=basename(srcfile), remove.yaml = TRUE) {
   tmpfile = tempfile()
   lines = readLines(srcfile)
   if(remove.yaml) {
-    yaml_delims = grep('^---', lines)
-    if(length(yaml_delims)>1) {
-      lines = lines[(yaml_delims[2]+1):length(lines)]
-    }
+    lines = .removeYaml(lines)
   }
   writeLines(lines, con = tmpfile)
   file.copy(tmpfile, destfile, overwrite = TRUE)
