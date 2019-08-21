@@ -17,43 +17,74 @@ vignette: |
 
 # Overview
 
-The `r CRANpkg("bookdown")` package can be used to build gitbook books from
-multiple R markdown documents. The process for doing so is well-documented for
-a single user with a directory of R markdown documents. 
+The `r CRANpkg("bookdown")` package can be used to build gitbook books
+from multiple R markdown documents. The process for doing so is
+well-documented for a single user with a directory of R markdown
+documents.
 
 A more complicated use case includes some additional requirements.
 
-- The materials and R packages required to successfully run the materials
-in the book should be installable, including dependencies.
-- Book chapters will be authored by individual contributors and each should
-be able to control when new content is merged into the book while still
-being able to work independently on their own materials.
-- Contributions from each user should themselves be versioned, coupled to a
-particular version of the book, and potentially decoupled from the book to 
-include or exclude content.
-- Individual chapters and (and should) be incorporated into individual installable
-R packages so that R dependencies, code, and extended documentation can be included.
-- The bookdown "parent" repository will depend on the packages from individual 
-contributors. Installing the "parent" repository will lead to versioned installations
-of each "chapter" repository.
+- The materials and R packages required to successfully run the
+materials in the book should be installable, including dependencies.
+- Book chapters will be authored by individual contributors and each
+should be able to control when new content is merged into the book
+while still being able to work independently on their own materials.
+- Contributions from each user should themselves be versioned, coupled
+to a particular version of the book, and potentially decoupled from
+the book to include or exclude content.
+- Individual chapters and (and should) be incorporated into individual
+installable R packages so that R dependencies, code, and extended
+documentation can be included.
+- The bookdown "parent" repository will depend on the packages from
+individual contributors. Installing the "parent" repository will lead
+to versioned installations of each "chapter" repository.
+
+## Implementation assumptions
+
+- Each chapter will be derived from a vignette from an installable
+  package.
+- Each resource package that includes one or more chapter vignettes
+will be a self-contained and installable.
+- Each vignette in each resource package will use `system.file()` to
+access assets such as images, bibliography, etc. to enable compiling
+the vignette *after* installation.
+
+## Additional needs not yet discussed or implemented
+
+- Since a package may include multiple vignettes, consider adding an
+  .workshop_config file to each package in `inst` that will include
+  details of which vignette to include.
+- Given a set of workshop packages, there should be an approach to
+  reproducibly and reliably build and test each package through to
+  complete artifact creation (gitbook, etc.)
+- The build environment should be reproducible and available to
+  workshop authors so that authors can be assured of a successful
+  build when combined with other workshop chapters.
+- Build materials for various vignettes should be isolated from each
+  other. **Not sure how best to go about this**. The issue is that
+  when building multiple chapters together, gitbook needs `.Rmd` files
+  in one location, so need to ensure that chapters are "namespaced"
+  somehow. 
+- Consider a workshop "manifest" that includes remotes, git hashes (to
+  pin versions), and perhaps even a packrat repo to pin package
+  versions.
 
 
-# Introduction
+
+# Usage
 
 ```{r message=FALSE, warning=FALSE}
 library(CollaborativeBookdown)
 ```
 
-# Usage
-
 ## Testing contributed packages
 
-The first concern when building a collaborative bookdown
-book based on workshop packages is to test which of the 
-packages actually installs. The `testPackageInstalls()` function
-takes a character vector of [repository strings] **PUT IN REMOTES HERE**.
-The convenience function `repoFromURLs()` can convert from plain
-URLs to the format needed for installation.
+The first concern when building a collaborative bookdown book based on
+workshop packages is to test which of the packages actually
+installs. The `testPackageInstalls()` function takes a character
+vector of [repository strings] **PUT IN REMOTES HERE**.  The
+convenience function `repoFromURLs()` can convert from plain URLs to
+the format needed for installation.
 
 
 ```{r testpkginstall, message=FALSE, warning=FALSE, eval=FALSE}
@@ -93,6 +124,8 @@ ivignettes
 
 ## Checking package vignettes
 
+Create a fake vignette as text and write to file for testing and
+demonstrating functionality.
 
 ```{r fakeRmdFile}
 temp = tempfile()
@@ -105,7 +138,8 @@ writeLines(rmdtest, temp)
 Bookdown has some special requirements for R markdown files that are going
 to appear as chapters in a bookdown book.
 
-1. Chapters must contain one and only one chapter header.
+1. Chapters must contain one and only one chapter header (first-level
+   heading).
 
 The `checkVignette()` function performs some basic checks to see if the 
 supplied `.Rmd` files meet these criteria.
@@ -116,17 +150,17 @@ checkVignette(temp)
 
 ## Fixing common vignette problems
 
-The test `.Rmd` file has incorrectly specified the number of headers. The
-`fixMultipleFirstLevelHeaders()` function implements a kludge to fix the file.
+The test `.Rmd` file has incorrectly used more than one first-level
+header, the number of headers. The `fixMultipleFirstLevelHeaders()`
+function implements a kludge to fix the file.
 
 ```{r}
 cat(paste(fixMultipleFirstLevelHeaders(temp),collapse="\n"))
 ```
 
-The new text has demoted all the first-level headers--except the first one--to 
-second-level headers. If necessary, use `writeLines` to write out the results
-to a file.
-
+The new text has demoted all the first-level headers--except the first
+one--to second-level headers. If necessary, use `writeLines` to write
+out the results to a file.
 
 
 # sessionInfo()
